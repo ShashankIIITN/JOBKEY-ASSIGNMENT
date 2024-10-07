@@ -1,0 +1,9 @@
+export const status = {
+	SUCCESS: "SUCCESS",
+	FAILURE: "FAILURE",
+	ALREADY_EXISTS: "ALREADY_EXISTS",
+	NOT_FOUND: "NOT_FOUND",
+	SERVER_ERROR: "SERVER_ERROR",
+};
+
+export const SALTROUNDS = 10;
