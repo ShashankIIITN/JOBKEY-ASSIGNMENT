@@ -11,4 +11,6 @@ export const queries = {
 	createProduct: `INSERT INTO products (name, description, price, seller_id)
         VALUES ($1, $2, $3, $4) RETURNING *;`,
 	deleteProduct: `DELETE FROM products WHERE id = $1 AND seller_id = $2 RETURNING *;`,
+	getAllProducts: `SELECT * FROM products;`,
+	getSellerSpecificProducts: `SELECT * FROM products WHERE seller_id = $1;`,
 };

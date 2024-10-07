@@ -1,9 +1,11 @@
-import { status } from "../constants/Other";
-import { getUser } from "../services/Auth";
+import { status } from "../constants/Other.js";
+import { getUser } from "../services/Auth.js";
 
 export const checkAuthToken = (req, res, next) => {
 	const authorizationValue = req.headers["authorization"];
 	req.user = null;
+
+    console.log(req.headers)
 
 	if (!authorizationValue || !authorizationValue.startsWith("Bearer"))
 		return next();
@@ -11,6 +13,8 @@ export const checkAuthToken = (req, res, next) => {
 	const token = authorizationValue.split("Bearer ")[1];
 	const user = getUser(token);
 	req.user = user;
+
+    console.log(req.user)
 
 	return next();
 };

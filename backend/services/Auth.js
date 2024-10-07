@@ -6,5 +6,5 @@ export const getAuthToken = (data) => {
 };
 
 export const getUser = (token) => {
-	return jwt.verify(data, SECRET);
+	return jwt.verify(token, SECRET);
 };

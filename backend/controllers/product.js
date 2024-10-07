@@ -3,7 +3,8 @@ import { queries } from "../constants/sql.js";
 import { pool } from "../index.js";
 
 export const createProduct = async (req, res) => {
-	const { name, description, price, sellerId } = req.body;
+	const { name, description, price } = req.body;
+	const sellerId = req.user.id;
 
 	try {
 		const result = await pool.query(queries.createProduct, [
@@ -23,8 +24,41 @@ export const createProduct = async (req, res) => {
 	}
 };
 
+export const getAllProducts = async (req, res) => {
+	try {
+		const result = await pool.query(queries.getAllProducts);
+
+		return res.json(result.rows);
+	} catch (error) {
+		console.error("Error inserting product:", error);
+		return res.json({
+			message: "Error inserting product!",
+			status: status.FAILURE,
+		});
+	}
+};
+
+export const getSellerProducts = async (req, res) => {
+	const sellerId = req.user.id;
+
+	try {
+		const result = await pool.query(queries.getSellerSpecificProducts, [
+			sellerId,
+		]);
+
+		return res.json(result.rows);
+	} catch (error) {
+		console.error("Error inserting product:", error);
+		return res.json({
+			message: "Error inserting product!",
+			status: status.FAILURE,
+		});
+	}
+};
+
 export const updateProduct = async (req, res) => {
-	const { name, description, price, sellerId } = req.body;
+	const { name, description, price } = req.body;
+	const sellerId = req.user.id;
 	const productId = req.params.id;
 	try {
 		const result = await pool.query(queries.updateProduct, [
@@ -50,8 +84,10 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-	const { sellerId } = req.body;
+	const sellerId = req.user.id;
 	const productId = req.params.id;
+
+	console.log(productId);
 	try {
 		const result = await pool.query(queries.deleteProduct, [
 			productId,
