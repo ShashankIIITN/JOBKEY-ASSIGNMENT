@@ -21,7 +21,7 @@ export const placeOrder = async (req, res) => {
 export const findOrderById = async (req, res) => {
 	const orderId = req.params.id;
 
-    console.log(orderId)
+	console.log(orderId);
 	try {
 		const result = await pool.query(queries.findOrderByID, [orderId]);
 
@@ -36,6 +36,28 @@ export const findOrderById = async (req, res) => {
 		res.json({
 			message: "Failed to fetch the order",
 			status: status.NOT_FOUND,
+		});
+	}
+};
+
+export const getAllSellerOrders = async (req, res) => {
+	const sellerId = req.user.id;
+	try {
+		const result = await pool.query(queries.getAllOrdersForSeller, [sellerId]);
+
+		if (result.rows.length === 0) {
+			return res.json({
+				message: "No Orders yet!",
+				status: status.NOT_FOUND,
+			});
+		}
+
+		return res.json(result.rows);
+	} catch (error) {
+		console.error("Error fetching order:", error);
+		res.json({
+			message: "Failed to fetch the order",
+			status: status.FAILURE,
 		});
 	}
 };
@@ -65,7 +87,9 @@ export const getAllMyOrders = async (req, res) => {
 export const getSellerListings = async (req, res) => {
 	const sellerId = req.user.id;
 	try {
-		const result = await pool.query(queries.getSellerListedProducts, [buyerId]);
+		const result = await pool.query(queries.getSellerListedProducts, [
+			sellerId,
+		]);
 
 		if (result.rows.length === 0) {
 			return res.json({

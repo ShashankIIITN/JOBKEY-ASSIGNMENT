@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { URL } from "./Login";
 
 export const FormField = ({
 	type,
@@ -26,28 +27,61 @@ export const FormField = ({
 	);
 };
 
+const role = {
+	seller: "seller",
+	buyer: "buyer",
+};
+
 function SignUp() {
 	const [formData, setformData] = useState({
 		name: "",
 		email: "",
 		password: "",
 		confirmPassword: "",
+		role: role.buyer,
 	});
 
 	const updateFormdata = (e) => {
 		setformData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const handleLogin = (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
-		console.log("Logging in:", { email, password });
 
-		setEmail("");
-		setPassword("");
+		console.log(formData);
+
+		try {
+			const response = await fetch(`${URL}user/signup`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+			});
+
+			const pdata = await response.json();
+
+			console.log(formData);
+
+			if (pdata.status === "SUCCESS") {
+				window.localStorage.setItem("token", pdata.AuthToken);
+				setformData({
+					name: "",
+					email: "",
+					password: "",
+					confirmPassword: "",
+				});
+				nav("/auth/login");
+			} else {
+				console.error("Signup failed:", pdata.message || "Unknown error");
+			}
+		} catch (error) {
+			console.error("Error during login:", error);
+		}
 	};
 	return (
 		<div className="login-container flex flex-col justify-center items-center h-full border gap-10">
-			<h1 className="text-4xl">Login</h1>
+			<h1 className="text-4xl">Sign Up</h1>
 			<form
 				onSubmit={handleLogin}
 				className="text-2xl flex flex-col gap-5 w-[450px] border border-blue-700 p-5"
@@ -88,6 +122,20 @@ function SignUp() {
 					required={true}
 					label="Confirm Password"
 				/>
+				<div className="flex gap-10 items-center ">
+					<label htmlFor="role">Select Role:</label>
+					<select
+						id="role"
+						name="role"
+						value={formData.role}
+						onChange={updateFormdata}
+						className="outline-none border border-black"
+					>
+						<option value="buyer">Buyer</option>
+						<option value="seller">Seller</option>
+					</select>
+				</div>
+
 				<button
 					type="submit"
 					className="border border-black w-1/3 self-center bg-blue-400 pb-1 hover:bg-blue-200"

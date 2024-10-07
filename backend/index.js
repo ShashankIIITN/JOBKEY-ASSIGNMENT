@@ -6,6 +6,7 @@ import UserRouter from "./routes/user.js";
 import ProductRoutes from "./routes/products.js";
 import { checkAuthToken } from "./middlewares/Auth.js";
 import OrderRouter from "./routes/order.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const app = express();
 
 export const pool = connectTopgDB();
 
+app.use(cors());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 

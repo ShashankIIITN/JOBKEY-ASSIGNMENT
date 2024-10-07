@@ -7,6 +7,8 @@ import { status, SALTROUNDS } from "../constants/Other.js";
 export const userLogin = async (req, res) => {
 	const { email, password } = req.body;
 
+	console.log(req.body)
+
 	try {
 		const result = await pool.query(queries.getUser, [email]);
 

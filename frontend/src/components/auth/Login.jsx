@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { FormField } from "./SignUp";
+import { useNavigate } from "react-router-dom";
 
 export const URL = "http://localhost:3000/";
 
 function LogIn() {
+	const nav = useNavigate();
 	const [formData, setformData] = useState({
 		email: "",
 		password: "",
@@ -15,12 +17,33 @@ function LogIn() {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		const data = await fetch();
 
-		setformData({
-			email: "",
-			password: "",
-		});
+		try {
+			const response = await fetch(`${URL}user/login`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+			});
+
+			const pdata = await response.json();
+
+			console.log(pdata);
+
+			if (pdata.status === "SUCCESS") {
+				window.localStorage.setItem("token", pdata.AuthToken);
+				setformData({
+					email: "",
+					password: "",
+				});
+				nav("/auth/signup");
+			} else {
+				console.error("Login failed:", pdata.message || "Unknown error");
+			}
+		} catch (error) {
+			console.error("Error during login:", error);
+		}
 	};
 
 	return (

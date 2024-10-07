@@ -26,4 +26,8 @@ export const queries = {
     WHERE id = $1 AND buyer_id = $2
     RETURNING *;
   `,
+	getAllOrdersForSeller: `SELECT o.id AS order_id, o.quantity, p.name AS product_name, p.price
+      FROM orders o
+      JOIN products p ON o.product_id = p.id
+      WHERE p.seller_id = $1;`,
 };
