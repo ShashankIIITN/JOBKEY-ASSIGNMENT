@@ -1,7 +1,7 @@
 import { queries } from "../constants/sql.js";
 import { pool } from "../index.js";
 import bcrypt from "bcrypt";
-import { getAuthToken } from "../middlewares/Auth.js";
+import { getAuthToken } from "../services/Auth.js";
 import { status, SALTROUNDS } from "../constants/Other.js";
 
 export const userLogin = async (req, res) => {
@@ -22,10 +22,7 @@ export const userLogin = async (req, res) => {
 		const match = await bcrypt.compare(password, user.password_hash);
 
 		if (match) {
-			const AuthToken = getAuthToken({
-				UUID: user.id,
-				role: user.role,
-			});
+			const AuthToken = getAuthToken(user);
 
 			return res.json({
 				message: "User logged in successfully!",
@@ -90,10 +87,7 @@ export const userSignUp = async (req, res) => {
 
 		const user = result.rows[0];
 
-		const AuthToken = getAuthToken({
-			UUID: user.id,
-			role: user.role,
-		});
+		const AuthToken = getAuthToken(user);
 
 		return res.json({
 			message: "User Created successfully!",

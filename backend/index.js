@@ -3,6 +3,7 @@ import bodyparser from "body-parser";
 import { connectTopgDB } from "./connectToDB.js";
 import dotenv from "dotenv";
 import UserRouter from "./routes/user.js";
+import ProductRoutes from "./routes/products.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
 app.use("/user", UserRouter);
+app.use("/product", ProductRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
