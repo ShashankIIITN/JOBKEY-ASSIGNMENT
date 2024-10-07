@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FormField } from "./SignUp";
 
+export const URL = "http://localhost:3000/";
+
 function LogIn() {
 	const [formData, setformData] = useState({
 		email: "",
@@ -10,9 +12,10 @@ function LogIn() {
 	const updateFormdata = (e) => {
 		setformData({ ...formData, [e.target.name]: e.target.value });
 	};
-	const handleLogin = (e) => {
+
+	const handleLogin = async (e) => {
 		e.preventDefault();
-		console.log("Logging in:", { email, password });
+		const data = await fetch();
 
 		setformData({
 			email: "",

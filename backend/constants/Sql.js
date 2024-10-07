@@ -12,5 +12,18 @@ export const queries = {
         VALUES ($1, $2, $3, $4) RETURNING *;`,
 	deleteProduct: `DELETE FROM products WHERE id = $1 AND seller_id = $2 RETURNING *;`,
 	getAllProducts: `SELECT * FROM products;`,
-	getSellerSpecificProducts: `SELECT * FROM products WHERE seller_id = $1;`,
+	getSellerListedProducts: `SELECT * FROM products WHERE seller_id = $1;`,
+	placeOrder: `INSERT INTO orders (product_id, buyer_id, quantity)
+                VALUES ($1, $2, $3)
+                RETURNING *;
+                `,
+	findOrderByID: `
+        SELECT * FROM orders WHERE id = $1;
+      `,
+	getAllBuyerOrders: `SELECT * FROM orders where buyer_id = $1`,
+	cancelOrder: `
+    DELETE FROM orders
+    WHERE id = $1 AND buyer_id = $2
+    RETURNING *;
+  `,
 };

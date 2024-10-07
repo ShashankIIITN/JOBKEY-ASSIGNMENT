@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import UserRouter from "./routes/user.js";
 import ProductRoutes from "./routes/products.js";
 import { checkAuthToken } from "./middlewares/Auth.js";
+import OrderRouter from "./routes/order.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 app.use("/user", UserRouter);
 app.use("/product", checkAuthToken, ProductRoutes);
+app.use("/order", checkAuthToken, OrderRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
