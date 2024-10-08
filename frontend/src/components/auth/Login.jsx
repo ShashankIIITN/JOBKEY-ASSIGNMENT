@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormField } from "./SignUp";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export const URL = "http://localhost:3000/";
+export const URL = import.meta.env.VITE_URL || "http://localhost:3000/";
 
 function LogIn({ setIsLoggedin }) {
 	const nav = useNavigate();
@@ -51,6 +51,10 @@ function LogIn({ setIsLoggedin }) {
 			toast.error(error.message);
 		}
 	};
+	useEffect(() => {
+	  console.log(import.meta)
+	}, [])
+	
 
 	return (
 		<div className="login-container flex justify-center items-center h-full">
