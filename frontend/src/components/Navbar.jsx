@@ -37,7 +37,7 @@ function Navbar({ name, isLoggedin, setIsLoggedin }) {
 
 	return (
 		<div
-			className=" Navbar fixed top-0 right-0 w-full flex  flex-col sm:flex-row  sm:justify-between  sm:items-center bg-slate-950   h-12  px-1 xs:px-4  text-white  transition-all ease-in-out duration-300 overflow-clip 
+			className=" Navbar fixed top-0 right-0 w-full flex  flex-col sm:flex-row  sm:justify-between  sm:items-center bg-slate-800   h-12  px-1 xs:px-4  text-white  transition-all ease-in-out duration-300 overflow-clip 
          z-30"
 		>
 			<div className="Nav_left invisible sm:visible">

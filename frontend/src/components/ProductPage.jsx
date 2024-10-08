@@ -119,7 +119,7 @@ function ProductPage() {
 
 	return (
 		<div className="h-full relative overflow-auto">
-			<h1 className="text-4xl text-center m-auto sticky top-12 bg-[8898a7] z-10">
+			<h1 className="text-4xl text-center m-auto sticky top-12 bg-[#8898a7] z-10 ">
 				All Products
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">

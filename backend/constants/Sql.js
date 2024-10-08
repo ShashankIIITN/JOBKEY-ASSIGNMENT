@@ -23,6 +23,7 @@ export const queries = {
 	getAllBuyerOrders: `SELECT 
     o.id AS order_id,
     o.quantity,
+    o.status AS order_status,
     p.name AS product_name,
     p.description AS product_description,
     p.price AS product_price,
@@ -42,13 +43,15 @@ WHERE
     WHERE id = $1 AND buyer_id = $2
     RETURNING *;
   `,
+	updateOrderStatus: `UPDATE orders SET status = $1 WHERE id = $2 RETURNING *`,
 	getAllOrdersForSeller: `SELECT 
     o.id AS order_id, 
     o.quantity, 
+    o.status AS order_status,
     p.name AS product_name, 
     p.price AS product_price, 
     p.description AS product_description,
-    b.name AS buyer_name, 
+    b.name AS buyer_name,
     b.email AS buyer_email
 FROM 
     orders o

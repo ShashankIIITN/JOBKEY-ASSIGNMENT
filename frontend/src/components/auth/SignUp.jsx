@@ -79,9 +79,11 @@ function SignUp({ setIsLoggedin }) {
 				nav("/");
 			} else {
 				console.error("Signup failed:", pdata.message || "Unknown error");
+				toast.error(pdata.message);
 			}
 		} catch (error) {
 			console.error("Error during login:", error);
+			toast.error(error.message);
 		}
 	};
 	return (
@@ -144,7 +146,7 @@ function SignUp({ setIsLoggedin }) {
 
 					<button
 						type="submit"
-						className="border border-black w-1/3 self-center bg-slate-500 pb-1 hover:bg-blue-200"
+						className="border rounded-md border-black w-1/3 self-center bg-slate-500 pb-1 hover:bg-blue-200"
 					>
 						SignUp
 					</button>

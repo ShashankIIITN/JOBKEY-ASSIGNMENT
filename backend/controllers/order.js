@@ -129,3 +129,24 @@ export const cancelOrder = async (req, res) => {
 		res.json({ message: "error deleting", status: status.FAILURE });
 	}
 };
+
+export const updateStatus = async (req, res) => {
+	const { id } = req.params;
+	const { status } = req.body;
+
+	try {
+		const result = await pool.query(queries.updateOrderStatus, [status, id]);
+
+		if (result.rows.length === 0) {
+			return res.status(404).json({ error: "Order not found" });
+		}
+
+		res.json({
+			message: "Order status updated successfully",
+			order: result.rows[0],
+		});
+	} catch (error) {
+		console.error(error.message);
+		res.status(500).json({ error: "Server error" });
+	}
+};
