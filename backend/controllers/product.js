@@ -42,7 +42,7 @@ export const getSellerProducts = async (req, res) => {
 	const sellerId = req.user.id;
 
 	try {
-		const result = await pool.query(queries.getSellerSpecificProducts, [
+		const result = await pool.query(queries.getSellerListedProducts, [
 			sellerId,
 		]);
 

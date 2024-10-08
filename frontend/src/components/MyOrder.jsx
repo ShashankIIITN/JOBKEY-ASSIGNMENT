@@ -33,13 +33,14 @@ export const ProductCard = ({ product }) => (
 	</div>
 );
 
-function ProductPage() {
-	const [allProducts, setAllProducts] = useState([]);
+function MyOrder() {
+	const [allOrders, setAllOrders] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	const getAllProducts = async () => {
-		const url = `${URL}product/all`;
+		const url = `${URL}order/my`;
+        
 
 		console.log(window.localStorage.getItem("token"));
 		try {
@@ -54,8 +55,8 @@ function ProductPage() {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
-			const dat = data.push(data);
-			setAllProducts(data);
+            console.log(data)
+			setAllOrders(data);
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -74,15 +75,15 @@ function ProductPage() {
 	return (
 		<div className="h-full relative overflow-auto">
 			<h1 className="text-4xl text-center m-auto sticky top-12 bg-white ">
-				All Products
+				My Orders
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">
-				{allProducts.length === 0 ? (
+				{allOrders.length === 0 ? (
 					<div className="text-xl text-gray-500">
 						No products available at the moment.
 					</div>
 				) : (
-					allProducts.map((product) => (
+					allOrders.map((product) => (
 						<ProductCard product={product} key={product.id} />
 					))
 				)}
@@ -91,4 +92,4 @@ function ProductPage() {
 	);
 }
 
-export default ProductPage;
+export default MyOrder;

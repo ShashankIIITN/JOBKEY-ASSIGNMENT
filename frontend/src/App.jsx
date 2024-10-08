@@ -1,17 +1,24 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
 import LogIn from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
-import ProductPage from "./components/ProductPage";
+import ProductPage, { productPageType } from "./components/ProductPage";
+import Navbar from "./components/Navbar";
+import ListingsPage from "./components/ListingsPage";
+import MyOrder from "./components/MyOrder";
 
 function App() {
 	return (
-		<Routes>
-			<Route path="/" element={<Home />}></Route>
-			<Route path="/auth/login" element={<LogIn />}></Route>
-			<Route path="/auth/signup" element={<SignUp />}></Route>
-			<Route path="/products" element={<ProductPage />}></Route>
-		</Routes>
+		<>
+			<Navbar />
+			<Routes>
+				<Route path="/" element={<ProductPage />}></Route>
+				<Route path="/products" element={<ProductPage />}></Route>
+				<Route path="/auth/login" element={<LogIn />}></Route>
+				<Route path="/auth/signup" element={<SignUp />}></Route>
+				<Route path="/orders/my" element={<MyOrder />}></Route>
+				<Route path="/products/my" element={<ListingsPage />}></Route>
+			</Routes>
+		</>
 	);
 }
 
