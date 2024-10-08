@@ -2,7 +2,7 @@ import { queries } from "../constants/sql.js";
 import { pool } from "../index.js";
 import bcrypt from "bcrypt";
 import { getAuthToken } from "../services/Auth.js";
-import { status, SALTROUNDS } from "../constants/Other.js";
+import { status, SALTROUNDS } from "../constants/other.js";
 
 export const userLogin = async (req, res) => {
 	const { email, password } = req.body;

@@ -1,4 +1,4 @@
-import { status } from "../constants/Other.js";
+import { status } from "../constants/other.js";
 import { queries } from "../constants/sql.js";
 import { pool } from "../index.js";
 import { sendEmail } from "../services/Mailer.js";

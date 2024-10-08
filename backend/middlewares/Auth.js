@@ -1,4 +1,4 @@
-import { status } from "../constants/Other.js";
+import { status } from "../constants/other.js";
 import { getUser } from "../services/Auth.js";
 
 export const checkAuthToken = (req, res, next) => {
