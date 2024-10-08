@@ -13,9 +13,19 @@ export const queries = {
 	deleteProduct: `DELETE FROM products WHERE id = $1 AND seller_id = $2 RETURNING *;`,
 	getAllProducts: `SELECT * FROM products;`,
 	getSellerListedProducts: `SELECT * FROM products WHERE seller_id = $1;`,
-	placeOrder: `INSERT INTO orders (product_id, buyer_id, quantity)
-                VALUES ($1, $2, $3)
-                RETURNING *;
+	// placeOrder: `INSERT INTO orders (product_id, buyer_id, quantity)
+	//             VALUES ($1, $2, $3)
+	//             RETURNING *;
+	//             `,
+	placeOrder: `WITH new_order AS (
+    INSERT INTO orders (product_id, buyer_id, quantity)
+    VALUES ($1, $2, $3)
+    RETURNING *
+    )
+    SELECT new_order.*, p.seller_id, p.name AS product_name, u.email AS seller_email
+    FROM new_order
+    JOIN products p ON p.id = new_order.product_id
+    JOIN users u ON u.id = p.seller_id;
                 `,
 	findOrderByID: `
         SELECT * FROM orders WHERE id = $1;

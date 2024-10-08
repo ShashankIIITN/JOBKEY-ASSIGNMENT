@@ -1,6 +1,7 @@
 import { status } from "../constants/Other.js";
 import { queries } from "../constants/sql.js";
 import { pool } from "../index.js";
+import { sendEmail } from "../services/Mailer.js";
 
 export const placeOrder = async (req, res) => {
 	const { productId, quantity } = req.body;
@@ -12,6 +13,23 @@ export const placeOrder = async (req, res) => {
 			parseInt(quantity),
 		]);
 
+		const order = result.rows[0];
+		const sellerEmail = order.seller_email;
+		const buyerName = req.user.name;
+
+		console.log(order)
+		const subject = `New Order for Your Product ${order.product_name}`;
+		const message = `Hello,
+
+		You have received a new order for your product "${order.product_name}".
+		Quantity: ${order.quantity}
+		Buyer: ${buyerName}
+
+		Please process the order at your earliest convenience.
+
+		Thanks!`;
+
+		sendEmail(sellerEmail, subject, message);
 		return res.json(result.rows[0]);
 	} catch (error) {
 		console.error("Error creating order:", error);
