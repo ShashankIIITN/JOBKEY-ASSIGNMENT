@@ -75,6 +75,7 @@ function ProductPage() {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
+
 			console.log(data);
 			handleCloseModal();
 		} catch (error) {
@@ -100,8 +101,10 @@ function ProductPage() {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
-			const dat = data.push(data);
-			setAllProducts(data);
+
+			if (Array.isArray(data)) {
+				setAllProducts(data);
+			}
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -123,7 +126,7 @@ function ProductPage() {
 				All Products
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">
-				{allProducts.length === 0 ? (
+				{allProducts && allProducts.length === 0 ? (
 					<div className="text-xl text-gray-500">
 						No products available at the moment.
 					</div>
