@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,15 @@ function Navbar({ name }) {
 	const [isLoggedin, setisLoggedin] = useState(false);
 	const [open, setopen] = useState(false);
 	const navigator = useNavigate();
+
+	useEffect(() => {
+		const token = window.localStorage.getItem("token");
+		if (token) {
+			setisLoggedin(true);
+		} else {
+			setisLoggedin(false);
+		}
+	}, []);
 
 	const handleMenu = () => {
 		let navl = document.querySelector(".Nav_left");
@@ -36,16 +45,28 @@ function Navbar({ name }) {
 		>
 			<div className="Nav_left invisible sm:visible">
 				<ul className="flex flex-col sm:flex-row items-start p-2 gap-2 sm:gap-10 flex-wrap w-full">
-					<li className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-linear duration-200" onClick={()=>navigator("/orders")}>
-						Orders
+					<li
+						className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-linear duration-200"
+						onClick={() => navigator("/orders/seller")}
+					>
+						Booked Orders
 					</li>
-					<li className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-in-out duration-200" onClick={()=>navigator("/orders/my")}>
+					<li
+						className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-in-out duration-200"
+						onClick={() => navigator("/orders/my")}
+					>
 						My Orders
 					</li>
-					<li className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-in-out duration-200" onClick={()=>navigator("/products/my")}>
+					<li
+						className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400 transition ease-in-out duration-200"
+						onClick={() => navigator("/products/my")}
+					>
 						My Listings
 					</li>
-					<li className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400  transition ease-in-out duration-200" onClick={()=>navigator("/")}>
+					<li
+						className="cursor-pointer border-b-2 border-transparent hover:border-cyan-400 hover:text-cyan-400  transition ease-in-out duration-200"
+						onClick={() => navigator("/")}
+					>
 						All Products
 					</li>
 				</ul>
@@ -79,7 +100,7 @@ function Navbar({ name }) {
 					</ul>
 				) : (
 					<div className="Profile_div">
-						<li>Profile</li>
+						<li>Logout</li>
 					</div>
 				)}
 			</div>

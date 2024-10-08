@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { URL } from "./auth/Login";
 import { Loader } from "./ProductPage";
 import { ErrorMessage } from "./ProductPage";
-import { MdCancel } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
 
 const OrderCard = ({ order }) => {
@@ -14,14 +13,13 @@ const OrderCard = ({ order }) => {
 			<p className="text-gray-700">Price: ${order.product_price}</p>
 			<p className="text-gray-700">Quantity: {order.quantity}</p>
 			<h4 className="text-md font-semibold">Seller Information:</h4>
-			<p className="text-gray-700">Seller Name: {order.seller_name}</p>
-			<p className="text-gray-700">Seller Email: {order.seller_email}</p>
+			<p className="text-gray-700">Buyer Name: {order.buyer_name}</p>
+			<p className="text-gray-700">Buyer Email: {order.buyer_email}</p>
 		</div>
 	);
 };
 
-
-function MyOrder() {
+function SellerOrder() {
 	const [allOrders, setAllOrders] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -52,8 +50,8 @@ function MyOrder() {
 		}
 	};
 
-	const getAllOrders = async () => {
-		const url = `${URL}order/my`;
+	const getAllProducts = async () => {
+		const url = `${URL}order/my/list`;
 
 		console.log(window.localStorage.getItem("token"));
 		try {
@@ -78,7 +76,7 @@ function MyOrder() {
 	};
 
 	useEffect(() => {
-		getAllOrders();
+		getAllProducts();
 	}, []);
 
 	if (loading) return <Loader />;
@@ -88,7 +86,7 @@ function MyOrder() {
 	return (
 		<div className="h-full relative overflow-auto">
 			<h1 className="text-4xl text-center m-auto sticky top-12 bg-white ">
-				My Orders
+				Booked Orders
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">
 				{allOrders.length === 0 ? (
@@ -115,4 +113,4 @@ function MyOrder() {
 	);
 }
 
-export default MyOrder;
+export default SellerOrder;

@@ -20,14 +20,43 @@ export const queries = {
 	findOrderByID: `
         SELECT * FROM orders WHERE id = $1;
       `,
-	getAllBuyerOrders: `SELECT * FROM orders where buyer_id = $1`,
+	getAllBuyerOrders: `SELECT 
+    o.id AS order_id,
+    o.quantity,
+    p.name AS product_name,
+    p.description AS product_description,
+    p.price AS product_price,
+    s.name AS seller_name,
+    s.email AS seller_email
+FROM 
+    orders o
+JOIN 
+    products p ON o.product_id = p.id
+JOIN 
+    users s ON p.seller_id = s.id
+WHERE 
+    o.buyer_id = $1;
+`,
 	cancelOrder: `
     DELETE FROM orders
     WHERE id = $1 AND buyer_id = $2
     RETURNING *;
   `,
-	getAllOrdersForSeller: `SELECT o.id AS order_id, o.quantity, p.name AS product_name, p.price
-      FROM orders o
-      JOIN products p ON o.product_id = p.id
-      WHERE p.seller_id = $1;`,
+	getAllOrdersForSeller: `SELECT 
+    o.id AS order_id, 
+    o.quantity, 
+    p.name AS product_name, 
+    p.price AS product_price, 
+    p.description AS product_description,
+    b.name AS buyer_name, 
+    b.email AS buyer_email
+FROM 
+    orders o
+JOIN 
+    products p ON o.product_id = p.id
+JOIN 
+    users b ON o.buyer_id = b.id
+WHERE 
+    p.seller_id = $1;
+`,
 };

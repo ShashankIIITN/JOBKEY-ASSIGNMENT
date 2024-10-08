@@ -5,17 +5,19 @@ import ProductPage, { productPageType } from "./components/ProductPage";
 import Navbar from "./components/Navbar";
 import ListingsPage from "./components/ListingsPage";
 import MyOrder from "./components/MyOrder";
+import SellerOrder from "./components/SellerOrder";
 
 function App() {
 	return (
 		<>
-			<Navbar />
+			<Navbar name="Jobkey"/>
 			<Routes>
 				<Route path="/" element={<ProductPage />}></Route>
 				<Route path="/products" element={<ProductPage />}></Route>
 				<Route path="/auth/login" element={<LogIn />}></Route>
 				<Route path="/auth/signup" element={<SignUp />}></Route>
 				<Route path="/orders/my" element={<MyOrder />}></Route>
+				<Route path="/orders/seller" element={<SellerOrder />}></Route>
 				<Route path="/products/my" element={<ListingsPage />}></Route>
 			</Routes>
 		</>
