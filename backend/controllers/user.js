@@ -32,6 +32,7 @@ export const userLogin = async (req, res) => {
 				user: {
 					name: user.username,
 					email: user.email,
+					role: user.role,
 				},
 				AuthToken,
 			});
