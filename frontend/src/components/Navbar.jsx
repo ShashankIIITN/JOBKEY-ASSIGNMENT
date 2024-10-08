@@ -3,19 +3,16 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-function Navbar({ name }) {
-	const [isLoggedin, setisLoggedin] = useState(false);
+function Navbar({ name, isLoggedin, setIsLoggedin }) {
 	const [open, setopen] = useState(false);
 	const navigator = useNavigate();
 
-	useEffect(() => {
-		const token = window.localStorage.getItem("token");
-		if (token) {
-			setisLoggedin(true);
-		} else {
-			setisLoggedin(false);
-		}
-	}, []);
+	const handleLogOut = () => {
+		window.localStorage.removeItem("token");
+		window.localStorage.removeItem("role");
+		setIsLoggedin(false);
+		navigator("/auth/login");
+	};
 
 	const handleMenu = () => {
 		let navl = document.querySelector(".Nav_left");
@@ -100,7 +97,12 @@ function Navbar({ name }) {
 					</ul>
 				) : (
 					<div className="Profile_div">
-						<li>Logout</li>
+						<h1
+							className="cursor-pointer border-2 w-min border-white p-1 hover:border-red-400 hover:text-red-400 transition ease-linear duration-200 text-nowrap"
+							onClick={handleLogOut}
+						>
+							Log Out
+						</h1>
 					</div>
 				)}
 			</div>

@@ -6,7 +6,9 @@ import { Loader } from "./ProductPage";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import Modal from "./Modal";
-import { IoAddCircle, IoCreate } from "react-icons/io5";
+import { IoAddCircle } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditModal = ({ open, onClose, product, type, updateListing }) => {
 	const [formData, setFormData] = useState({
@@ -123,6 +125,7 @@ const EditModal = ({ open, onClose, product, type, updateListing }) => {
 };
 
 function ListingsPage() {
+	const nav = useNavigate();
 	const [allListings, setallListings] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -131,6 +134,19 @@ function ListingsPage() {
 	const handleCloseModal = () => {
 		setModal((prev) => ({ ...prev, open: false }));
 	};
+
+	useEffect(() => {
+		let token = window.localStorage.getItem("token");
+		let role = window.localStorage.getItem("role");
+		if (token) {
+			if (role !== "seller") {
+				toast.error("Unauthorized! Please Create Seller Account");
+				nav("/");
+			}
+		} else {
+			nav("/auth/login");
+		}
+	}, []);
 
 	const handleDelete = async (id) => {
 		try {
@@ -197,7 +213,7 @@ function ListingsPage() {
 
 	return (
 		<div className="h-full relative overflow-auto">
-			<div className="flex justify-center items-center gap-10 h-16 m-auto sticky top-12 bg-white text-4xl z-10">
+			<div className="flex justify-center items-center gap-10 h-16 m-auto sticky top-12  bg-[#8898a7] text-4xl z-10">
 				<h1 className=" text-center ">All Listings</h1>
 				<IoAddCircle
 					className="cursor-pointer"

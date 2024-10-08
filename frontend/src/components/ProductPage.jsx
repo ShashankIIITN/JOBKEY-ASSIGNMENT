@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { URL } from "./auth/Login";
 import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Loader = () => (
 	<div className="flex justify-center items-center h-full">
@@ -24,7 +26,7 @@ export const productPageType = {
 
 export const ProductCard = ({ product }) => (
 	<div
-		className="card border border-slate-500 h-fit p-5 rounded-lg shadow-md"
+		className="card border border-slate-800 bg-slate-300 h-fit p-5 rounded-lg shadow-md"
 		key={product.id}
 	>
 		<div className="card-body text-lg">
@@ -42,6 +44,15 @@ function ProductPage() {
 	const [error, setError] = useState(null);
 	const [open, setOpen] = useState({ open: false, id: "" });
 	const [quantity, setquantity] = useState(0);
+	const nav = useNavigate();
+
+	useEffect(() => {
+		let token = window.localStorage.getItem("token");
+		if (!token) {
+			nav("/auth/login");
+			toast.info("Please login first");
+		}
+	}, []);
 
 	const handleCloseModal = () => {
 		setOpen((prev) => !prev);
@@ -108,7 +119,7 @@ function ProductPage() {
 
 	return (
 		<div className="h-full relative overflow-auto">
-			<h1 className="text-4xl text-center m-auto sticky top-12 bg-white ">
+			<h1 className="text-4xl text-center m-auto sticky top-12 bg-[8898a7] z-10">
 				All Products
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">

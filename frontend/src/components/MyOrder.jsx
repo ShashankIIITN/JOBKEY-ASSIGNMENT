@@ -4,10 +4,12 @@ import { Loader } from "./ProductPage";
 import { ErrorMessage } from "./ProductPage";
 import { MdCancel } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const OrderCard = ({ order }) => {
 	return (
-		<div className="border p-4 rounded-lg shadow-md border-slate-500">
+		<div className="card border border-slate-800 bg-slate-300 h-fit p-5 rounded-lg shadow-md">
 			<h2 className="text-lg font-bold">Order ID: {order.order_id}</h2>
 			<h3 className="text-md">Product Name: {order.product_name}</h3>
 			<p className="text-gray-700">Description: {order.product_description}</p>
@@ -20,11 +22,20 @@ const OrderCard = ({ order }) => {
 	);
 };
 
-
 function MyOrder() {
 	const [allOrders, setAllOrders] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const nav = useNavigate();
+
+	useEffect(() => {
+		let token = window.localStorage.getItem("token");
+		let role = window.localStorage.getItem("role");
+		if (!token) {
+			nav("/auth/login");
+			toast.info("Please login first");
+		}
+	}, []);
 
 	const cancelOrder = async (id) => {
 		const url = `${URL}order/cancel/${id}`;
@@ -68,8 +79,11 @@ function MyOrder() {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
-			console.log(data);
-			setAllOrders(data);
+
+			if (Array.isArray(data)) {
+				console.log(data);
+				setAllOrders(data);
+			}
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -87,13 +101,13 @@ function MyOrder() {
 
 	return (
 		<div className="h-full relative overflow-auto">
-			<h1 className="text-4xl text-center m-auto sticky top-12 bg-white ">
+			<h1 className="text-4xl text-center m-auto sticky top-12 bg-[#8898a7] ">
 				My Orders
 			</h1>
 			<div className="flex justify-center h-fit pt-24 gap-10 flex-wrap">
 				{allOrders.length === 0 ? (
 					<div className="text-xl text-gray-500">
-						No products available at the moment.
+						Please Order Something First.
 					</div>
 				) : (
 					allOrders.map((order) => {
