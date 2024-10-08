@@ -26,7 +26,7 @@ export const productPageType = {
 
 export const ProductCard = ({ product }) => (
 	<div
-		className="card border border-slate-800 bg-slate-300 h-fit p-5 rounded-lg shadow-md"
+		className="card border border-slate-800 bg-slate-300 h-fit p-5 rounded-lg min-w-[250px] shadow-md"
 		key={product.id}
 	>
 		<div className="card-body text-lg">
